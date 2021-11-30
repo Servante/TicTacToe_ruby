@@ -39,7 +39,7 @@ class Game
 	end
 
 	def check_win(player, player_moves)   #refactor
-		win = [[1,2,3], [4,5,6], [7,8,9], [1,4,7],[1,5,9], [2,5,8],[3,6,9],[3,5,7]]
+		win = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [1,5,9], [2,5,8], [3,6,9], [3,5,7]]
 		if @turn_count >= 9
 			puts "Looks like we have a tie. What a surprise."
 			puts "\n\n\n"
