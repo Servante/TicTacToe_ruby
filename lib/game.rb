@@ -16,7 +16,7 @@ class Game
 		@board = board
 	end
 
-	def self.play_game
+	def play_game
 		game_setup
 		board.show
 		game_turns
