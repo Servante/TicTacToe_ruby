@@ -13,22 +13,22 @@ class Game
 		@player2 = nil
 		@current_player = nil
 		@turn_count = 0
-		@board = board
+		@board = Board.new
 	end
 
 	def play_game
-		game_setup
-		board.show
-		game_turns
-		game_finish
+		# game_setup
+		# board.show
+		# game_turns
+		# game_finish
 	end
 
 	def player_creation(number)
-		display_new_player
+		# display_new_player
 		name = gets.chomp
 		token = @player1 == nil ? "X" : "O"
-		player = Player.new(name, token)
-		@current_player = player if @player1 = nil
+		player1 = Player.new(name, token)
+		@current_player = player if @player1 == nil
 		return player
 	end
 
