@@ -9,7 +9,20 @@ class Game
 		@player2 = nil
 		@current_player = nil
 		@turn_count = 0
+		@board = board
 	end
+
+	def self.play_game
+		game_setup
+		board.show
+		game_turns
+		game_finish
+	end
+
+	
+
+
+
 
 end
 
