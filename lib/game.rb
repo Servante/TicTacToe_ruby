@@ -2,8 +2,8 @@
 
 #contains the game logic
 
-include "pry"
-require_relative "display.rb"
+require "pry"
+# require_relative "display.rb"
 
 class Game
 	attr_accessor :player1, :player2, :current_player

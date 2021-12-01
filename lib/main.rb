@@ -12,4 +12,4 @@ def start_game
 end
 
 
-play_game
+start_game
