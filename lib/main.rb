@@ -6,7 +6,7 @@ require_relative "board.rb"
 require_relative "player.rb"
 
 
-def play_game
+def start_game
 	game = Game.new
 	game.play_game
 end
