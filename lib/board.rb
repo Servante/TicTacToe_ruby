@@ -7,7 +7,7 @@ class Board
 		@cells = [1,2,3,4,5,6,7,8,9]
 	end
 
-	WINNING_COMBOS = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [1,5,9], [2,5,8], [3,6,9], [3,5,7]].freeze
+	WINNING_COMBOS = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]].freeze
 
 	def show
 
@@ -24,15 +24,9 @@ class Board
 
 	end
 
-	def check_win(player)
-		WINNING_COMBOS.each do |combo|
-			count = 0
-			combo.each do |cell|
-				count += 1 if player_moves.include(cell)
-				if count == 3
-					display_win_message(player)
-				end
-			end
+	def game_win?(player)
+		WINNING_COMBOS.any? do |combo|
+			[cells[combo[0]], cells[combo[1]], cells[combo[2]]].uniq.length == 1
 		end
 	end
 end

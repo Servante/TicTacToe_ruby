@@ -36,9 +36,8 @@ class Game
 	def game_turns
 		until @turn_count == 9
 			@turn_count += 1
-			check_win(@player1)
-			check_win(@player2)
 			get_current_player_move
+			break if @board.check_win(@current_player) == true
 			switch_current_player
 		end
 

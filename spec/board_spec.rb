@@ -4,6 +4,7 @@
 require_relative '../lib/game.rb'
 require_relative '../lib/board.rb'
 require_relative '../lib/player.rb'
+require 'pry'
 
 
 describe Board do
@@ -14,14 +15,15 @@ describe Board do
 		let(:player) {Player.new("wes", "X")}
 
 
-		context 'when the player has winning moves in moves list' do
+		context 'when the board object contains a winning combo' do
 
 			before do
-				player.instance_variable_set(:@moves, [1, 2, 3])
+				winning_board = %w{X X X 4 O 6 7 O O}
+				board_check_win.instance_variable_set(:@cells, winning_board)
 			end
 
-			it 'returns a win message' do
-				expect
+			it 'returns true' do
+				expect(board_check_win.game_win?(@player1)).to be(true)
 			end
 		end
 	end
