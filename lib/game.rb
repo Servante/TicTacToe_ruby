@@ -47,7 +47,6 @@ class Game
 	end
 
 
-
 	private
 
 	def game_setup
@@ -55,6 +54,11 @@ class Game
 		@player1 = player_creation(1)
 		@player2 = player_creation(2)
 	end
+
+	def check_win(player)
+	end
+
+	
 	
 
 end

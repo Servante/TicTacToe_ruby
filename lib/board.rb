@@ -24,9 +24,15 @@ class Board
 
 	end
 
-
-
-
-
-
+	def check_win(player)
+		WINNING_COMBOS.each do |combo|
+			count = 0
+			combo.each do |cell|
+				count += 1 if player_moves.include(cell)
+				if count == 3
+					display_win_message
+				end
+			end
+		end
+	end
 end
