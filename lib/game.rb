@@ -18,8 +18,8 @@ class Game
 	end
 
 	def play_game
-		puts display_introduction
-		# game_setup
+		game_setup
+		binding.pry
 		# board.show
 		# game_turns
 		# game_finish
@@ -33,5 +33,15 @@ class Game
 		@current_player = player if @player1 == nil
 		return player
 	end
+
+	private
+
+	def game_setup
+		display_introduction
+		@player1 = player_creation(1)
+		@player2 = player_creation(2)
+	end
+	
+
 end
 
