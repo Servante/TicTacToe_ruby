@@ -11,4 +11,8 @@ module Display
 		puts "Please enter your name for player ##{number}"
 	end
 
+	def display_tie
+		puts "What a surprise. We have a tie."
+	end
+
 end
