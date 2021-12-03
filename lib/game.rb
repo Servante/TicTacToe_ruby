@@ -33,6 +33,21 @@ class Game
 		return player
 	end
 
+	def game_turns
+		until @turn_count == 9
+			@turn_count += 1
+			check_win(@player1)
+			check_win(@player2)
+			get_current_player_move
+			switch_current_player
+		end
+
+		display_tie
+
+	end
+
+
+
 	private
 
 	def game_setup
