@@ -34,7 +34,7 @@ describe Board do
 				board.instance_variable_set(:@cells, no_win_board)
 			end
 			
-			it 'it returns false' do
+			it 'returns false' do
 				expect(board.game_win?(@player1)).to be(false)
 			end
 		end
