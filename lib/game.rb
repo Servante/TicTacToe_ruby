@@ -19,8 +19,7 @@ class Game
 
 	def play_game
 		game_setup
-		binding.pry
-		# board.show
+		@board.show
 		# game_turns
 		# game_finish
 	end
