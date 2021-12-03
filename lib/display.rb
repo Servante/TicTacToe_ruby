@@ -15,4 +15,8 @@ module Display
 		puts "What a surprise. We have a tie."
 	end
 
+	def display_win(player)
+		puts "Congratulations #{player.name}! You won!"
+	end
+
 end

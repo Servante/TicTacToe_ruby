@@ -30,7 +30,7 @@ class Board
 			combo.each do |cell|
 				count += 1 if player_moves.include(cell)
 				if count == 3
-					display_win_message
+					display_win_message(player)
 				end
 			end
 		end
