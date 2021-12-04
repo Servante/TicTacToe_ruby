@@ -36,6 +36,7 @@ class Game
 	def game_turns
 		until @turn_count == 9
 			@turn_count += 1
+			@board.show
 			player_move
 			break if @board.game_over?(@current_player) == true
 			@current_player = switch_current_player
@@ -46,10 +47,7 @@ class Game
 	end
 
 	def verify_input(input)
-		#binding.pry
-		if input.ord.between?(0, 10) && @board.cells.include?(input)
-			return input
-		end
+		return input if input.ord.between?(48,58) && @board.cells.join.include?(input)
 	end
 
 	private
@@ -62,11 +60,9 @@ class Game
 
 	def player_move
 		display_move_prompt(current_player)
-		@board.show
-		input = verify_input(gets.chomp.to_i)
-		@board.update(input)
+		input = verify_input(gets.chomp)
+		@board.update(input, @current_player)
 	end
-
 
 	def switch_current_player
 		if @current_player == @player1

@@ -79,17 +79,15 @@ describe Game do
 			game.instance_variable_set(:@board, board)
 		end
 
-
 		context 'when input is received' do
 
-
 			it 'insures it is between 0 and 10' do
-				returned_input = game.verify_input(7)
-				expect(returned_input).to be(7)
+				returned_input = game.verify_input("7")
+				expect(returned_input).to be("7")
 			end
 
 			it 'and not already already on the board' do
-				returned_input = game.verify_input(5)
+				returned_input = game.verify_input("5")
 				expect(returned_input).to be(nil)
 			end
 		end
@@ -97,6 +95,9 @@ describe Game do
 		context 'when input is anything other than 1-9' do
 
 			it 'returns nil' do
-				returned_input = game.verify_input()
+				returned_input = game.verify_input("H")
+				expect(returned_input).to eq(nil)
+			end
+		end
 	end
 end
