@@ -36,9 +36,9 @@ class Game
 	def game_turns
 		until @turn_count == 9
 			@turn_count += 1
-			get_current_player_move
-			break if @board.check_win(@current_player) == true
-			switch_current_player
+			player_move
+			break if @board.game_over?(@current_player) == true
+			@current_player = switch_current_player
 		end
 
 		display_tie
@@ -54,11 +54,20 @@ class Game
 		@player2 = player_creation(2)
 	end
 
-	def check_win(player)
+	def player_move
+		@board.show
+		display_move_prompt
+		input = verify_input(gets.chomp)
+		@board.update(input)
 	end
 
-	
-	
 
+	def switch_current_player
+		if @current_player == @player1
+			@player2
+		else
+			@player1
+		end
+	end
 end
 
