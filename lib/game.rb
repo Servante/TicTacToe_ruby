@@ -45,6 +45,13 @@ class Game
 
 	end
 
+	def verify_input(input)
+		#binding.pry
+		if input.ord.between?(0, 10) && @board.cells.include?(input)
+			return input
+		end
+	end
+
 	private
 
 	def game_setup
@@ -54,9 +61,9 @@ class Game
 	end
 
 	def player_move
+		display_move_prompt(current_player)
 		@board.show
-		display_move_prompt
-		input = verify_input(gets.chomp)
+		input = verify_input(gets.chomp.to_i)
 		@board.update(input)
 	end
 

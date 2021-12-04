@@ -19,4 +19,8 @@ module Display
 		puts "Congratulations #{player.name}! You won!"
 	end
 
+	def display_move_prompt(player)
+		puts "#{player.name}, please select a square."
+	end
+
 end

@@ -67,4 +67,36 @@ describe Game do
 			end
 		end
 	end
+
+	describe 'verify_input' do
+
+		subject(:game) {described_class.new}
+		let(:board) {instance_double(Board)}
+
+		before do
+			cells = [1,2,3,4,"X",6,7,8,9]
+			allow(board).to receive(:cells).and_return(cells)
+			game.instance_variable_set(:@board, board)
+		end
+
+
+		context 'when input is received' do
+
+
+			it 'insures it is between 0 and 10' do
+				returned_input = game.verify_input(7)
+				expect(returned_input).to be(7)
+			end
+
+			it 'and not already already on the board' do
+				returned_input = game.verify_input(5)
+				expect(returned_input).to be(nil)
+			end
+		end
+
+		context 'when input is anything other than 1-9' do
+
+			it 'returns nil' do
+				returned_input = game.verify_input()
+	end
 end
