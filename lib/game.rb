@@ -45,7 +45,6 @@ class Game
 
 	end
 
-
 	private
 
 	def game_setup
