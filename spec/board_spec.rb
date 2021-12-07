@@ -39,13 +39,30 @@ describe Board do
 		end
 	end
 
-	describe "board_update" do
+	describe 'board_update' do
 
-		context "when player one updates square 3" do
-			it "replaces the 3 with the player's token (X)" do
+		context 'when player one updates square 3' do
+			it 'replaces the 3 with the player\'s token (X)'do
 				input = 3
 				board.board_update(input, player)
 				expect(board.cells[2]).to eq("X")
+			end
+		end
+	end
+
+	describe 'valid_move?' do
+
+		context 'when a valid move is submitted' do
+			it 'returns true' do
+				move = board.valid_move?(3)
+				expect(move).to be(true)
+			end
+		end
+
+		context 'when an invalid move is submitted' do
+			it 'returns false' do
+				move = board.valid_move?(100)
+				expect(move).to be(false)
 			end
 		end
 	end

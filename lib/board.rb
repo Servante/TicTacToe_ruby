@@ -24,6 +24,11 @@ class Board
 
 	end
 
+	def valid_move?(input)
+		@cells[input - 1] == input
+	end
+
+
 	def game_over?(player)
 		WINNING_COMBOS.any? do |combo|
 			[cells[combo[0]], cells[combo[1]], cells[combo[2]]].uniq.length == 1

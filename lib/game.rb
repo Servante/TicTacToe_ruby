@@ -7,7 +7,7 @@ require_relative 'display.rb'
 
 class Game
 	include Display
-	attr_accessor :player1, :player2, :current_player
+	attr_accessor :player1, :player2, :current_player, :board
 
 	
 	def initialize
@@ -17,9 +17,9 @@ class Game
 		@board = Board.new
 	end
 
-	def play_game
+	def play_game #combine wiht game turns
 		game_setup
-		@board.show
+		@board.show #delete
 		# game_turns
 		# game_finish
 	end
@@ -33,25 +33,28 @@ class Game
 		return player
 	end
 
-	def game_turns
+	def game_turn
 		until @turn_count == 9
-			@turn_count += 1
+			update_turn_count
 			@board.show
-			player_move
+			cell = player_input
+			@board.board_update(cell, @current_player)
 			break if @board.game_over?(@current_player) == true
 			@current_player = switch_current_player
 		end
 
 		display_tie
 
-	end
-
-	
+	end	
 
 	private
 
+	def update_turn_count
+		@turn_count += 1
+	end
+
 	def verify_input(input)#refactor with ternary
-		if input.ord.between?(48,58) && @board.cells.join.include?(input)
+		if input.ord.between?(48,58) && @board.cells.join.include?(input.to_i)
 			return input
 		else
 			return nil
@@ -64,21 +67,13 @@ class Game
 		@player2 = player_creation(2)
 	end
 
-	def player_move		
-		input = verify_input(player_input)
-		if input == nil
-			display_invalid_input
-			player_move
-		else
-			@board.update(input, @current_player)
-		end
-	end
-
-	def player_input
+	def player_input(player)
 		display_move_prompt
-		gets.chomp
+		input = gets.chomp.to_i
+		return input if board.valid_move?(input)
+		display_invalid_input
+		player_input(player)
 	end
-
 
 	def switch_current_player
 		if @current_player == @player1
