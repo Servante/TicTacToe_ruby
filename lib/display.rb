@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 
 module Display
@@ -19,8 +20,8 @@ module Display
 		puts "Congratulations #{player.name}! You won!"
 	end
 
-	def display_move_prompt(player)
-		puts "#{player.name}, please select a square."
+	def display_move_prompt
+		puts "#{@current_player}, please select a square."
 	end
 
 	def display_invalid_input

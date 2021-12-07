@@ -46,16 +46,17 @@ class Game
 
 	end
 
-	def verify_input(input)
+	
+
+	private
+
+	def verify_input(input)#refactor with ternary
 		if input.ord.between?(48,58) && @board.cells.join.include?(input)
 			return input
 		else
-			display_invalid_input
-			player_move
+			return nil
 		end
 	end
-
-	private
 
 	def game_setup
 		display_introduction
@@ -63,17 +64,21 @@ class Game
 		@player2 = player_creation(2)
 	end
 
-	def player_move
-		
+	def player_move		
 		input = verify_input(player_input)
-		@board.update(input, @current_player)
+		if input == nil
+			display_invalid_input
+			player_move
+		else
+			@board.update(input, @current_player)
+		end
 	end
 
 	def player_input
 		display_move_prompt
 		gets.chomp
 	end
-	
+
 
 	def switch_current_player
 		if @current_player == @player1

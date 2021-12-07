@@ -24,13 +24,13 @@ class Board
 
 	end
 
-	def game_win?(player)
+	def game_over?(player)
 		WINNING_COMBOS.any? do |combo|
 			[cells[combo[0]], cells[combo[1]], cells[combo[2]]].uniq.length == 1
 		end
 	end
 
 	def board_update(input, player)
-	
+
 	end
 end

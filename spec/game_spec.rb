@@ -68,37 +68,36 @@ describe Game do
 		end
 	end
 
-	describe 'verify_input' do
+	# describe 'verify_input' do
 
-		subject(:game) {described_class.new}
-		let(:board) {instance_double(Board)}
+	# 	subject(:game) {described_class.new}
+	# 	# let(:board) {instance_double(Board)}
 
-		before do
-			cells = [1,2,3,4,"X",6,7,8,9]
-			allow(board).to receive(:cells).and_return(cells)
-			game.instance_variable_set(:@board, board)
-		end
+	# 	# before do
+	# 	# 	cells = [1,2,3,4,"X",6,7,8,9]
+	# 	# 	allow(board).to receive(:cells).and_return(cells)
+	# 	# 	game.instance_variable_set(:@board, board)
+	# 	# end
 
-		context 'when valid input is received' do
+	# 	context 'when valid input is entered' do
 
-			it 'returns the input' do
-				returned_input = game.verify_input("7")
-				expect(returned_input).to be("7")
-			end			
-		end
+	# 		it 'returns the input' do
+	# 			returned_input = game.verify_input("7")
+	# 			expect(returned_input).to be("7")
+	# 		end			
+	# 	end
 
-		context 'when the input is invalid' do
+	# 	context 'when invalid input is entered' do
 
-			before do
-				allow(game).to receive(:display_move_prompt)
-				allow(:verify_input).to receive(:gets).and_return("100")
-			end
+	# 		before do				
+	# 			allow(game).to receive(:player_move)	
+	# 		end
 
-			it 'invokes #display_invalid_input' do
-				message = "That input is invalid."
-				expect(game).to receive(:puts).with(message)
-				game.verify_input
-			end
-		end
-	end
+	# 		it 'returns nil' do
+	# 			invalid_input = '100'
+	# 			returned_result = game.verify_input(invalid_input)
+	# 			expect(returned_result).to eq(nil)
+	# 		end
+	# 	end
+	# end
 end
