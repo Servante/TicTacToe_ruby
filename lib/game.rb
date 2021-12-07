@@ -53,14 +53,6 @@ class Game
 		@turn_count += 1
 	end
 
-	def verify_input(input)#refactor with ternary
-		if input.ord.between?(48,58) && @board.cells.join.include?(input.to_i)
-			return input
-		else
-			return nil
-		end
-	end
-
 	def game_setup
 		display_introduction
 		@player1 = player_creation(1)
