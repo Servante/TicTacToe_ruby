@@ -9,11 +9,10 @@ require 'pry'
 
 describe Board do
 
+	subject(:board) {Board.new}
+	let(:player) {Player.new("wes", "X")}
+
 	describe '#check_win' do
-
-		subject(:board) {Board.new}
-		# let(:player) {Player.new("wes", "X")}
-
 
 		context 'when the board object contains a winning combo' do
 
@@ -23,7 +22,7 @@ describe Board do
 			end
 
 			it 'returns true' do
-				expect(board.game_win?(@player1)).to be(true)
+				expect(board.game_over?(@player1)).to be(true)
 			end
 		end
 
@@ -35,7 +34,18 @@ describe Board do
 			end
 			
 			it 'returns false' do
-				expect(board.game_win?(@player1)).to be(false)
+				expect(board.game_over?(@player1)).to be(false)
+			end
+		end
+	end
+
+	describe "board_update" do
+
+		context "when player one updates square 3" do
+			it "replaces the 3 with the player's token (X)" do
+				input = 3
+				board.board_update(input, player)
+				expect(board.cells[2]).to eq("X")
 			end
 		end
 	end

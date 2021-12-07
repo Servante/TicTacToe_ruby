@@ -31,6 +31,6 @@ class Board
 	end
 
 	def board_update(input, player)
-
+		@cells[input.to_i - 1] = player.token
 	end
 end
