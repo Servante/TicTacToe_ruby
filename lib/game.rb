@@ -47,7 +47,12 @@ class Game
 	end
 
 	def verify_input(input)
-		return input if input.ord.between?(48,58) && @board.cells.join.include?(input)
+		if input.ord.between?(48,58) && @board.cells.join.include?(input)
+			return input
+		else
+			display_invalid_input
+			player_move
+		end
 	end
 
 	private
@@ -59,10 +64,16 @@ class Game
 	end
 
 	def player_move
-		display_move_prompt(current_player)
-		input = verify_input(gets.chomp)
+		
+		input = verify_input(player_input)
 		@board.update(input, @current_player)
 	end
+
+	def player_input
+		display_move_prompt
+		gets.chomp
+	end
+	
 
 	def switch_current_player
 		if @current_player == @player1

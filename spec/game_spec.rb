@@ -79,24 +79,25 @@ describe Game do
 			game.instance_variable_set(:@board, board)
 		end
 
-		context 'when input is received' do
+		context 'when valid input is received' do
 
-			it 'insures it is between 0 and 10' do
+			it 'returns the input' do
 				returned_input = game.verify_input("7")
 				expect(returned_input).to be("7")
-			end
-
-			it 'and not already already on the board' do
-				returned_input = game.verify_input("5")
-				expect(returned_input).to be(nil)
-			end
+			end			
 		end
 
-		context 'when input is anything other than 1-9' do
+		context 'when the input is invalid' do
 
-			it 'returns nil' do
-				returned_input = game.verify_input("H")
-				expect(returned_input).to eq(nil)
+			before do
+				allow(game).to receive(:display_move_prompt)
+				allow(:verify_input).to receive(:gets).and_return("100")
+			end
+
+			it 'invokes #display_invalid_input' do
+				message = "That input is invalid."
+				expect(game).to receive(:puts).with(message)
+				game.verify_input
 			end
 		end
 	end

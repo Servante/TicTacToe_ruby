@@ -23,4 +23,8 @@ module Display
 		puts "#{player.name}, please select a square."
 	end
 
+	def display_invalid_input
+		puts "That input is invalid."
+	end
+
 end
