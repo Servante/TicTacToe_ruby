@@ -7,7 +7,7 @@ require_relative 'display.rb'
 
 class Game
 	include Display
-	attr_accessor :player1, :player2, :current_player, :board
+	attr_accessor :player1, :player2, :current_player, :board, :turn_count
 
 	
 	def initialize
@@ -34,10 +34,10 @@ class Game
 	end
 
 	def game_turn
-		until @turn_count == 9
-			update_turn_count
+		until @turn_count == 9 #looping script, test that loop breaks when game_over
+			update_turn_count  # command method, test the observable state
 			@board.show
-			cell = player_input
+			cell = player_input #
 			@board.board_update(cell, @current_player)
 			break if @board.game_over?(@current_player) == true
 			@current_player = switch_current_player

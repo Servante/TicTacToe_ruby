@@ -68,62 +68,45 @@ describe Game do
 		end
 	end
 
-	describe 'verify_input' do
+	# describe 'verify_input' do
 
-		subject(:game) {described_class.new}
-		# let(:board) {instance_double(Board)}
+	# 	subject(:game) {described_class.new}
+	# 	# let(:board) {instance_double(Board)}
 
-		# before do
-		# 	cells = [1,2,3,4,"X",6,7,8,9]
-		# 	allow(board).to receive(:cells).and_return(cells)
-		# 	game.instance_variable_set(:@board, board)
-		# end
+	# 	# before do
+	# 	# 	cells = [1,2,3,4,"X",6,7,8,9]
+	# 	# 	allow(board).to receive(:cells).and_return(cells)
+	# 	# 	game.instance_variable_set(:@board, board)
+	# 	# end
 
-		context 'when valid input is entered' do
-			
+	# 	context 'when valid input is entered' do
 
+	# 		it 'returns the input' do
+	# 			returned_input = game.verify_input("7")
+	# 			expect(returned_input).to be("7")
+	# 		end			
+	# 	end
 
+	# 	context 'when invalid input is entered' do
 
+	# 		before do				
+	# 			allow(game).to receive(:player_move)	
+	# 		end
 
+	# 		it 'returns nil' do
+	# 			invalid_input = '100'
+	# 			returned_result = game.verify_input(invalid_input)
+	# 			expect(returned_result).to eq(nil)
+	# 		end
+	# 	end
+	# end
 
-			# it 'returns the input' do
-			# 	returned_input = game.verify_input("7")
-			# 	expect(returned_input).to be("7")
-			# end			
-		end
-
-		context 'when invalid input is entered' do
-
-			before do				
-				allow(game).to receive(:player_move)	
-			end
-
-			it 'returns nil' do
-				invalid_input = '100'
-				returned_result = game.verify_input(invalid_input)
-				expect(returned_result).to eq(nil)
+	describe 'update_turn_count' do
+		context 'when update_turn_count is called' do
+			subject(:game_update_count) {described_class.new}
+			it 'updates turn_count instance variable' do
+				expect{game_update_count.update_turn_count}.to change{game_update_count.turn_count}.by(1)
 			end
 		end
 	end
-	# describe 'game_turns' do
-	# 	subject(:game_turn) {described_class.new}
-	# 	let(:player1) {Player.new('Wes', 'X')}
-
-	# 	# before do 
-	# 	# 	game_turn.instance_variable_set(:current_player, player1)
-	# 	# end
-
-	# 	# context 'when game_turns is called' do
-	# 	# 	it 'updates board' do
-	# 	# 		# allow(game_turn).to receive(:update_turn_count)
-	# 	# 		allow(game_turn).to receive(:puts)
-	# 	# 		allow(game_turn).to receive(:player_input).and_return("3")
-	# 	# 		allow(game_turn).to receive(:verify_input)
-	# 	# 		allow(game_turn.board).to receive(:board_update)
-	# 	# 		updated_board = [1,2,"X",4,5,6,7,8,9]
-	# 	# 		game_turn.game_turns
-	# 	# 		expect(game_turn.board.cells).to eq(updated_board)
-	# 	# 	end
-	# 	# end
-	# end
 end
