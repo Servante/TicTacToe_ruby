@@ -101,11 +101,29 @@ describe Game do
 	# 	end
 	# end
 
-	describe 'update_turn_count' do
+	describe 'game_turn' do
+		subject(:game_turn) {described_class.new}
+		player1 = Player.new("wes", "X")
+		player2 = Player.new("bria", "O")
+
+		before do
+			game_turn.instance_variable_set(:@player1, player1)
+			game_turn.instance_variable_set(:@current_player, player1)
+			game_turn.instance_variable_set(:@player2, player2)
+			allow(game_turn).to receive(:update_turn_count)
+			allow(game_turn.board).to receive(:show)
+			allow(game_turn).to receive(:gets).and_return("7")
+			allow(game_turn.board).to receive(:board_update)
+			allow(game_turn).to receive(:switch_current_player)
+			allow(game_turn.board).to receive(:game_over?).and_return(true)
+			binding.pry
+			
+		end
+
+
 		context 'when update_turn_count is called' do
-			subject(:game_update_count) {described_class.new}
 			it 'updates turn_count instance variable' do
-				expect{game_update_count.update_turn_count}.to change{game_update_count.turn_count}.by(1)
+				expect{game_turn.game_turn}.to change{game_turn.turn_count}.by(1)
 			end
 		end
 	end

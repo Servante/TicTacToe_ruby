@@ -13,15 +13,15 @@ class Game
 	def initialize
 		@player1 = nil
 		@player2 = nil
+		@current_player = nil
 		@turn_count = 0
 		@board = Board.new
 	end
 
 	def play_game #combine wiht game turns
 		game_setup
-		@board.show #delete
-		# game_turns
-		# game_finish
+		# game_turn
+		# game_finish(current_player)
 	end
 
 	def player_creation(number)
@@ -33,14 +33,14 @@ class Game
 		return player
 	end
 
-	def game_turn
-		until @turn_count == 9 #looping script, test that loop breaks when game_over
+	def game_turn #looping script method - test that it ends at win or tie
+		until @turn_count == 9 
 			update_turn_count  # command method, test the observable state
 			@board.show
-			cell = player_input #
-			@board.board_update(cell, @current_player)
+			cell = player_input(@current_player) #command method, test that valid input is set
+			board.board_update(cell, @current_player) #outgoing command method - test that message was sent
 			break if @board.game_over?(@current_player) == true
-			@current_player = switch_current_player
+			@current_player = switch_current_player #commend method - test observable state
 		end
 
 		display_tie
@@ -76,4 +76,3 @@ class Game
 	end
 end
 
-#testing sublime
