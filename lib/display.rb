@@ -28,4 +28,7 @@ module Display
 		puts "That input is invalid."
 	end
 
+	def display_win
+		puts "Congratulations #{@current_player}! You've won!"
+	end
 end

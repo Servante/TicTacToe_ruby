@@ -20,8 +20,10 @@ class Game
 
 	def play_game #combine wiht game turns
 		game_setup
-		# game_turn
-		# game_finish(current_player)
+		board.show
+		game_turns
+		# binding.pry
+		# game_finish
 	end
 
 	def player_creation(number)
@@ -33,21 +35,33 @@ class Game
 		return player
 	end
 
-	def game_turn #looping script method - test that it ends at win or tie
-		until @turn_count == 9 
-			update_turn_count  # command method, test the observable state
-			@board.show
-			cell = player_input(@current_player) #command method, test that valid input is set
-			board.board_update(cell, @current_player) #outgoing command method - test that message was sent
-			break if @board.game_over?(@current_player) == true
-			@current_player = switch_current_player #commend method - test observable state
-		end
+	# def display_game_turn		
+	# 	# binding.pry
+	# 	game_turn until @turn_count == 9
+	# 	display_tie
+	# end
 
-		display_tie
-
+	def player_turn #looping script method - test that it ends at win or tie
+		@board.show
+		cell = player_input(@current_player) #command method, test that valid input is set
+		board.board_update(cell, @current_player) #outgoing command method - test that message was sent
+		@current_player = switch_current_player #commend method - test observable state
 	end	
 
 	private
+
+	def game_turns
+		@turn_count += 1
+		until @turn_count == 9
+			player_turn_order
+			break if @board.game_over?
+		end
+		switch_current_player
+	end
+
+	def game_finish
+		display_win
+	end
 
 	def update_turn_count
 		@turn_count += 1
@@ -68,11 +82,7 @@ class Game
 	end
 
 	def switch_current_player
-		if @current_player == @player1
-			@player2
-		else
-			@player1
-		end
+		@current_player = @current_player == @player1 ? @player2 : @player1
 	end
 end
 

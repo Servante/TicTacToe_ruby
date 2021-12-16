@@ -103,27 +103,37 @@ describe Game do
 
 	describe 'game_turn' do
 		subject(:game_turn) {described_class.new}
+		let(:game_turn_board) {instance_double(Board)}
 		player1 = Player.new("wes", "X")
 		player2 = Player.new("bria", "O")
+
 
 		before do
 			game_turn.instance_variable_set(:@player1, player1)
 			game_turn.instance_variable_set(:@current_player, player1)
 			game_turn.instance_variable_set(:@player2, player2)
-			allow(game_turn).to receive(:update_turn_count)
-			allow(game_turn.board).to receive(:show)
-			allow(game_turn).to receive(:gets).and_return("7")
-			allow(game_turn.board).to receive(:board_update)
-			allow(game_turn).to receive(:switch_current_player)
-			allow(game_turn.board).to receive(:game_over?).and_return(true)
-			binding.pry
-			
+			game_turn.instance_variable_set(:@board, game_turn_board)
+			allow(game_turn_board).to receive(:show)
+			allow(game_turn_board).to receive(:board_update)
+			allow(game_turn_board).to receive(:game_over?)
 		end
 
 
-		context 'when update_turn_count is called' do
-			it 'updates turn_count instance variable' do
-				expect{game_turn.game_turn}.to change{game_turn.turn_count}.by(1)
+		context 'when display_game_turn is called' do
+			it 'if no one wins, it runs until turn_count reaches 9' do
+				allow(game_turn).to receive(:player_input).and_return("1","2","3","4","5","6","7","8","9")
+				expect(game_turn).to receive(:display_tie)
+				game_turn.game_turn
+			end
+
+			it 'if a player actually wins, the loop end and #game_finish is called' do
+				game_turn_board.instance_variable_set(:@cells, [1,2,3,4,5,6,7,8,9])
+				allow(game_turn_board).to receive(:game_over?).and_return(true)
+				allow(game_turn).to receive(:player_input).and_return("1","4","2","7","3")
+
+				binding.pry
+				expect(game_turn).to receive(:player_input).exactly(5).times
+				game_turn.game_turn
 			end
 		end
 	end

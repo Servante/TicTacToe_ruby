@@ -29,7 +29,7 @@ class Board
 	end
 
 
-	def game_over?(player)
+	def game_over?
 		WINNING_COMBOS.any? do |combo|
 			[cells[combo[0]], cells[combo[1]], cells[combo[2]]].uniq.length == 1
 		end
