@@ -22,8 +22,7 @@ class Game
 		game_setup
 		board.show
 		game_turns
-		# binding.pry
-		# game_finish
+		game_finish
 	end
 
 	def player_creation(number)
@@ -83,6 +82,14 @@ class Game
 
 	def switch_current_player
 		@current_player = @current_player == @player1 ? @player2 : @player1
+	end
+
+	def game_finish
+		if board.game_over?
+			display_win
+		else
+			display_tie
+		end
 	end
 end
 
