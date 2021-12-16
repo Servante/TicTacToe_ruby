@@ -18,9 +18,8 @@ class Game
 		@board = Board.new
 	end
 
-	def play_game #combine wiht game turns
+	def play_game 
 		game_setup
-		board.show
 		game_turns
 		game_finish
 	end
@@ -34,25 +33,19 @@ class Game
 		return player
 	end
 
-	# def display_game_turn		
-	# 	# binding.pry
-	# 	game_turn until @turn_count == 9
-	# 	display_tie
-	# end
-
-	def player_turn #looping script method - test that it ends at win or tie
+	def player_turn 
 		@board.show
-		cell = player_input(@current_player) #command method, test that valid input is set
-		board.board_update(cell, @current_player) #outgoing command method - test that message was sent
-		@current_player = switch_current_player #commend method - test observable state
+		cell = player_input(@current_player) 
+		board.board_update(cell, @current_player) 
+		@current_player = switch_current_player 
 	end	
 
 	private
 
 	def game_turns
-		@turn_count += 1
 		until @turn_count == 9
-			player_turn_order
+			@turn_count += 1
+			player_turn
 			break if @board.game_over?
 		end
 		switch_current_player
@@ -73,7 +66,7 @@ class Game
 	end
 
 	def player_input(player)
-		display_move_prompt
+		display_move_prompt(@current_player)
 		input = gets.chomp.to_i
 		return input if board.valid_move?(input)
 		display_invalid_input
@@ -86,7 +79,7 @@ class Game
 
 	def game_finish
 		if board.game_over?
-			display_win
+			display_win(@current_player)
 		else
 			display_tie
 		end

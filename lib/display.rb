@@ -1,6 +1,8 @@
 
 # frozen_string_literal: true
 
+require 'pry'
+
 module Display
 
 	def display_introduction
@@ -17,18 +19,15 @@ module Display
 	end
 
 	def display_win(player)
-		puts "Congratulations #{player.name}! You won!"
+		puts "Congratulations #{player.name.capitalize}! You won!"
 	end
 
-	def display_move_prompt
-		puts "#{@current_player}, please select a square."
+	def display_move_prompt(player)
+		# binding.pry
+		puts "#{player.name.capitalize}, please select a square."
 	end
 
 	def display_invalid_input
 		puts "That input is invalid."
-	end
-
-	def display_win
-		puts "Congratulations #{@current_player}! You've won!"
 	end
 end
