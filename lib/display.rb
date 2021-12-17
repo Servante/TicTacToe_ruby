@@ -9,7 +9,7 @@ module Display
 	end
 
 	def display_new_player(number)
-		puts "\n\nPlease enter your name for player ##{number}"
+		puts "\n\nPlease enter the name for player ##{number}"
 	end
 
 	def display_tie

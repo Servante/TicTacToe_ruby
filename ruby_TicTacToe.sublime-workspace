@@ -304,22 +304,20 @@
 	"buffers":
 	[
 		{
-			"file": "lib/main.rb",
+			"file": "lib/game.rb",
 			"settings":
 			{
-				"buffer_size": 533,
+				"buffer_size": 1510,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "# frozen_string_literal: true\n\n#contains the game logic\n\nrequire \"pry\"\nrequire_relative 'display.rb'\n\nclass Game\n\tinclude Display\n\tattr_accessor :player1, :player2, :current_player, :board, :turn_count\n\n\t\n\tdef initialize\n\t\t@player1 = nil\n\t\t@player2 = nil\n\t\t@current_player = nil\n\t\t@turn_count = 0\n\t\t@board = Board.new\n\tend\n\n\tdef play_game #script method\n\t\tgame_setup \n\t\tgame_turns #test that method updates board\n\t\tgame_finish #\n\tend\n\n\tdef player_creation(number)\n\t\tputs display_new_player(number)\n\t\tname = gets.chomp\n\t\ttoken = @player1 == nil ? \"X\" : \"O\"\n\t\tplayer = Player.new(name, token)\n\t\t@current_player = player if @player1 == nil\n\t\treturn player\n\tend\n\n\tdef player_turn \n\t\t@board.show\n\t\tcell = player_input(@current_player) \n\t\tboard.board_update(cell, @current_player) \n\t\t@current_player = switch_current_player \n\tend\t\n\n\tprivate\n\n\tdef game_turns\n\t\tuntil @turn_count == 9\n\t\t\t@turn_count += 1\n\t\t\tplayer_turn\n\t\t\tbreak if @board.game_over?\n\t\tend\n\t\tswitch_current_player\n\tend\n\n\tdef game_finish\n\t\tdisplay_win\n\tend\n\n\tdef update_turn_count\n\t\t@turn_count += 1\n\tend\n\n\tdef game_setup\n\t\tdisplay_introduction\n\t\t@player1 = player_creation(1)\n\t\t@player2 = player_creation(2)\n\tend\n\n\tdef player_input(player)\n\t\tdisplay_move_prompt(@current_player)\n\t\tinput = gets.chomp.to_i\n\t\treturn input if board.valid_move?(input)\n\t\tdisplay_invalid_input\n\t\tplayer_input(player)\n\tend\n\n\tdef switch_current_player\n\t\t@current_player = @current_player == @player1 ? @player2 : @player1\n\tend\n\n\tdef game_finish\n\t\tif board.game_over?\n\t\t\tdisplay_win(@current_player)\n\t\telse\n\t\t\tdisplay_tie\n\t\tend\n\tend\nend\n\n",
-			"file": "lib/game.rb",
-			"file_size": 1522,
-			"file_write_time": 132841653796261584,
+			"file": "lib/main.rb",
 			"settings":
 			{
-				"buffer_size": 1571,
+				"buffer_size": 436,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -344,16 +342,19 @@
 			"file": "lib/display.rb",
 			"settings":
 			{
-				"buffer_size": 647,
+				"buffer_size": 632,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
+			"contents": "# frozen_string_literal: true\n\n\nrequire_relative '../lib/game.rb'\nrequire_relative '../lib/board.rb'\nrequire_relative '../lib/player.rb'\n\ndescribe Game do\n\n\tdescribe '#play_game' do\n\t\tsubject(:game) {described_class.new}\n\n\t\tit 'runs game_setup, game_turns and game_finish' do\n\t\t\texpect(game).to receive(:game_setup)\n\t\t\texpect(game).to receive(:game_turns)\n\t\t\texpect(game).to receive(:game_finish)\n\t\t\tgame.play_game\n\t\tend\n\tend\n\t\n\tdescribe '#player_creation' do\n\t\tsubject(:game) {described_class.new}\n\n\t\tbefore do\n\t\t\t\tname = \"fred\"\n\t\t\t\tallow(game).to receive(:puts)\n\t\t\t\tallow(game).to receive(:gets).and_return(name)\n\t\t\tend\n\n\t\tcontext 'when a request for the first player is invoked' do\n\n\t\t\tit 'assigns the token \"X\" to first player' do\n\t\t\t\tfirst_player = game.player_creation(1)\n\t\t\t\texpect(first_player.token).to eq(\"X\")\n\t\t\tend\n\n\t\t\tit 'assigns the first player as current_player' do\t\n\t\t\t\tgame.player_creation(1)\t\t\t\n\t\t\t\texpect(game.current_player).not_to be(nil)\n\t\t\tend\n\t\tend\n\n\t\tcontext 'when a request for the second player is invoked' do\n\n\t\t\tlet(:first_player) {instance_double(Player)}\n\n\t\t\tbefore do \n\t\t\t\tgame.instance_variable_set(:@player1, first_player)\n\t\t\t\tgame.instance_variable_set(:@current_player, first_player)\n\t\t\tend\n\n\t\t\tit 'assigns the token \"O\" to second player' do\n\t\t\t\tsecond_player = game.player_creation(2)\n\t\t\t\texpect(second_player.token).to eq(\"O\")\n\t\t\tend\t\t\t\n\n\t\t\tit 'does not assign second player as current_player' do\n\t\t\t\tsecond_player = game.player_creation(2)\n\t\t\t\texpect(game.current_player).not_to be(second_player)\n\t\t\tend\n\t\tend\n\n\t\tcontext 'when the script is complete' do\n\n\t\t\tit 'returns the player object' do\n\t\t\t\treturned_object = game.player_creation(1)\n\t\t\t\texpect(returned_object).to be_an_instance_of(Player)\n\t\t\tend\n\t\tend\n\tend\n\n\tdescribe 'player_turn' do\n\t\tsubject(:game) {described_class.new}\n\n\t\tbefore do \n\t\t\tcurrent_player = (Player.new(\"wes\", \"X\"))\n\t\t\tgame.instance_variable_set(:@board, instance_double(Board))\n\t\t\tgame.instance_variable_set(:@current_player, current_player)\n\t\t\tallow(game.board).to receive(:show)\n\t\t\tallow(game).to receive(:puts)\n\t\t\tallow(game.board).to receive(:valid_move?)\n\t\tend\n\n\t\tit 'sends an update message to the board' do\n\t\t\tcell = \"7\"\n\t\t\tplayer_input = \"3\"\n\t\t\tallow(game).to receive(:player_input).and_return(player_input)\n\t\t\texpect(game.board).to receive(:board_update).with(player_input, game.current_player)\n\t\t\tgame.player_turn\n\t\tend\n\tend\t\nend\n",
 			"file": "spec/game_spec.rb",
+			"file_size": 2438,
+			"file_write_time": 132842333488392499,
 			"settings":
 			{
-				"buffer_size": 2255,
+				"buffer_size": 2404,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -362,7 +363,8 @@
 			"file": "spec/board_spec.rb",
 			"settings":
 			{
-				"buffer_size": 1402,
+				"buffer_size": 2124,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -417,6 +419,7 @@
 	],
 	"file_history":
 	[
+		"/home/wesley/web_development/git_repositories/TicTacToe_ruby/lib/main.rb",
 		"/home/wesley/Dropbox/ODIN/working_code/spec/14_find_number_spec.rb",
 		"/home/wesley/Dropbox/ODIN/working_code/spec/15a_binary_game_spec.rb",
 		"/home/wesley/Dropbox/ODIN/working_code/spec/lib/14_find_number.rb",
@@ -543,8 +546,7 @@
 		"/home/wesley/web_development/git_repositories/Odin-Projects/x.rb",
 		"/home/wesley/web_development/git_repositories/Odin-Projects/fibonacci.rb",
 		"/home/wesley/web_development/git_repositories/Odin-Projects/bubble_sort.rb",
-		"/home/wesley/web_development/programs_working/fib.rb",
-		"/home/wesley/web_development/doomed.rb"
+		"/home/wesley/web_development/programs_working/fib.rb"
 	],
 	"find":
 	{
@@ -579,24 +581,54 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "lib/main.rb",
+					"file": "lib/game.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 533,
+						"buffer_size": 1510,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								533,
-								533
+								1152,
+								1154
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 655.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "lib/main.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 436,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								145,
+								145
 							]
 						],
 						"settings":
@@ -608,37 +640,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "lib/game.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1571,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								367,
-								367
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
-							"translate_tabs_to_spaces": false,
-							"word_wrap": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -666,7 +668,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -695,7 +697,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -704,15 +706,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 647,
+						"buffer_size": 632,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								339,
+								339
 							]
 						],
 						"settings":
@@ -724,13 +726,13 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -739,44 +741,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2255,
+						"buffer_size": 2404,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2136,
-								2136
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 798.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "spec/board_spec.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1402,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
+								499,
+								499
 							]
 						],
 						"settings":
@@ -789,6 +762,35 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "spec/board_spec.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2124,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								276,
+								276
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -870,7 +872,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 		"last_automatic_layout":
