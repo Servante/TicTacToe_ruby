@@ -24,7 +24,7 @@ describe Game do
 	
 	describe '#player_creation' do
 		subject(:game) {described_class.new}
-		
+
 		before do
 				name = "fred"
 				allow(game).to receive(:puts)
@@ -73,75 +73,25 @@ describe Game do
 		end
 	end
 
+	describe 'player_turn' do
+		subject(:game) {described_class.new}
 
+		before do 
+			current_player = (Player.new("wes", "X"))
+			game.instance_variable_set(:@board, instance_double(Board))
+			game.instance_variable_set(:@current_player, current_player)
+			allow(game.board).to receive(:show)
+			allow(game).to receive(:puts)
+			allow(game.board).to receive(:valid_move?)
+		end
 
-	# describe 'verify_input' do
-
-	# 	subject(:game) {described_class.new}
-	# 	# let(:board) {instance_double(Board)}
-
-	# 	# before do
-	# 	# 	cells = [1,2,3,4,"X",6,7,8,9]
-	# 	# 	allow(board).to receive(:cells).and_return(cells)
-	# 	# 	game.instance_variable_set(:@board, board)
-	# 	# end
-
-	# 	context 'when valid input is entered' do
-
-	# 		it 'returns the input' do
-	# 			returned_input = game.verify_input("7")
-	# 			expect(returned_input).to be("7")
-	# 		end			
-	# 	end
-
-	# 	context 'when invalid input is entered' do
-
-	# 		before do				
-	# 			allow(game).to receive(:player_move)	
-	# 		end
-
-	# 		it 'returns nil' do
-	# 			invalid_input = '100'
-	# 			returned_result = game.verify_input(invalid_input)
-	# 			expect(returned_result).to eq(nil)
-	# 		end
-	# 	end
-	# end
-
-	# describe 'game_turn' do
-	# 	subject(:game_turn) {described_class.new}
-	# 	let(:game_turn_board) {instance_double(Board)}
-	# 	player1 = Player.new("wes", "X")
-	# 	player2 = Player.new("bria", "O")
-
-
-	# 	before do
-	# 		game_turn.instance_variable_set(:@player1, player1)
-	# 		game_turn.instance_variable_set(:@current_player, player1)
-	# 		game_turn.instance_variable_set(:@player2, player2)
-	# 		game_turn.instance_variable_set(:@board, game_turn_board)
-	# 		allow(game_turn_board).to receive(:show)
-	# 		allow(game_turn_board).to receive(:board_update)
-	# 		allow(game_turn_board).to receive(:game_over?)
-	# 	end
-
-
-	# 	context 'when display_game_turn is called' do
-	# 		it 'if no one wins, it runs until turn_count reaches 9' do
-	# 			allow(game_turn).to receive(:player_input).and_return("1","2","3","4","5","6","7","8","9")
-	# 			expect(game_turn).to receive(:display_tie)
-	# 			game_turn.game_turn
-	# 		end
-
-	# 		it 'if a player actually wins, the loop end and #game_finish is called' do
-	# 			game_turn_board.instance_variable_set(:@cells, [1,2,3,4,5,6,7,8,9])
-	# 			allow(game_turn_board).to receive(:game_over?).and_return(true)
-	# 			allow(game_turn).to receive(:player_input).and_return("1","4","2","7","3")
-
-				
-	# 			expect(game_turn).to receive(:player_input).exactly(5).times
-	# 			game_turn.game_turn
-	# 		end
-	# 	end
-	# end
+		it 'sends an update message to the board' do
+			cell = "7"
+			player_input = "3"
+			# binding.pry
+			allow(game).to receive(:player_input).and_return(player_input)
+			expect(game.board).to receive(:board_update).with(player_input, game.current_player)
+			game.player_turn
+		end
+	end	
 end

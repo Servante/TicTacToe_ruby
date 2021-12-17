@@ -18,10 +18,10 @@ class Game
 		@board = Board.new
 	end
 
-	def play_game 
-		game_setup
-		game_turns
-		game_finish
+	def play_game
+		game_setup 
+		game_turns 
+		game_finish 
 	end
 
 	def player_creation(number)

@@ -12,32 +12,32 @@ describe Board do
 	subject(:board) {Board.new}
 	let(:player) {Player.new("wes", "X")}
 
-	describe '#check_win' do
+	# describe '#check_win' do
 
-		context 'when the board object contains a winning combo' do
+	# 	context 'when the board object contains a winning combo' do
 
-			before do
-				winning_board = %w{X X X 4 O 6 7 O O}
-				board.instance_variable_set(:@cells, winning_board)
-			end
+	# 		before do
+	# 			winning_board = %w{X X X 4 O 6 7 O O}
+	# 			board.instance_variable_set(:@cells, winning_board)
+	# 		end
 
-			it 'returns true' do
-				expect(board.game_over?(@player1)).to be(true)
-			end
-		end
+	# 		it 'returns true' do
+	# 			expect(board.game_over?(@player1)).to be(true)
+	# 		end
+	# 	end
 
-		context 'when the board object does not contain a winning combo' do
+	# 	context 'when the board object does not contain a winning combo' do
 
-			before do
-				no_win_board = %w{X 2 X 4 O 6 7 8 O}
-				board.instance_variable_set(:@cells, no_win_board)
-			end
+	# 		before do
+	# 			no_win_board = %w{X 2 X 4 O 6 7 8 O}
+	# 			board.instance_variable_set(:@cells, no_win_board)
+	# 		end
 			
-			it 'returns false' do
-				expect(board.game_over?(@player1)).to be(false)
-			end
-		end
-	end
+	# 		it 'returns false' do
+	# 			expect(board.game_over?(@player1)).to be(false)
+	# 		end
+	# 	end
+	# end
 
 	describe 'board_update' do
 
