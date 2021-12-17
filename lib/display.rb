@@ -25,6 +25,6 @@ module Display
 	end
 
 	def display_invalid_input
-		puts "\\nThat input is invalid."
+		puts "\nThat input is invalid."
 	end
 end
