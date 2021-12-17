@@ -4,7 +4,6 @@
 require_relative '../lib/game.rb'
 require_relative '../lib/board.rb'
 require_relative '../lib/player.rb'
-require 'pry'
 
 
 describe Board do
@@ -12,34 +11,55 @@ describe Board do
 	subject(:board) {Board.new}
 	let(:player) {Player.new("wes", "X")}
 
-	# describe '#check_win' do
+	describe '#game_over?' do
 
-	# 	context 'when the board object contains a winning combo' do
+		context 'when the board is new' do
+			it 'is not game over' do
+				expect(board).not_to be_game_over
+			end
+		end
 
-	# 		before do
-	# 			winning_board = %w{X X X 4 O 6 7 O O}
-	# 			board.instance_variable_set(:@cells, winning_board)
-	# 		end
+		context 'when the board is partially played' do
+			before do 
+				board.instance_variable_set(:@cells, ["X", "O", 3, "X", 5, 6, "O", 8, 9])
+			end
 
-	# 		it 'returns true' do
-	# 			expect(board.game_over?(@player1)).to be(true)
-	# 		end
-	# 	end
+			it 'is not game over' do
+				expect(board).not_to be_game_over
+			end
+		end
 
-	# 	context 'when the board object does not contain a winning combo' do
+		context 'when there\'s a horizontal three-in-a-row' do
+			before do
+				board.instance_variable_set(:@cells, ["X", "X", "X", "O", 5, "O", 7, 8, 9])
+			end
 
-	# 		before do
-	# 			no_win_board = %w{X 2 X 4 O 6 7 8 O}
-	# 			board.instance_variable_set(:@cells, no_win_board)
-	# 		end
+			it 'is game over' do
+				expect(board).to be_game_over
+			end
+		end
+
+		context 'when there\'s a vertical three-in-a-row' do
+			before do 
+				board.instance_variable_set(:@cells, ["X", "O", "O", "X", 5, 6, "X", 8, 9])
+			end
 			
-	# 		it 'returns false' do
-	# 			expect(board.game_over?(@player1)).to be(false)
-	# 		end
-	# 	end
-	# end
+			it 'is game over' do
+				expect(board).to be_game_over
+			end
+		end
 
-	describe 'board_update' do
+		context 'when there\'s a diagonal three-in-a-row' do
+			before do 
+				board.instance_variable_set(:@cells, ["X", "O", "O", 4, "X", "O", 7, 8, "X"])
+			end
+			it 'is game over' do
+				expect(board).to be_game_over
+			end
+		end
+	end
+
+	describe '#board_update' do
 
 		context 'when player one updates square 3' do
 			it 'replaces the 3 with the player\'s token (X)'do
@@ -50,7 +70,7 @@ describe Board do
 		end
 	end
 
-	describe 'valid_move?' do
+	describe '#valid_move?' do
 
 		context 'when a valid move is submitted' do
 			it 'returns true' do
@@ -63,6 +83,16 @@ describe Board do
 			it 'returns false' do
 				move = board.valid_move?(100)
 				expect(move).to be(false)
+			end
+		end
+
+		context 'when an occupied square is selected' do
+			before do 
+				board.instance_variable_set(:@cells, ["X", 2, 3, 4, 5, 6, 7, 8, 9])
+			end
+			it 'returns false' do
+				input = 1
+				expect(board.valid_move?(input)).to be(false)
 			end
 		end
 	end
