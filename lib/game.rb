@@ -2,7 +2,6 @@
 
 #contains the game logic
 
-require "pry"
 require_relative 'display.rb'
 
 class Game
