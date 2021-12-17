@@ -19,7 +19,7 @@ def start_game
 end
 
 def replay
-	puts "Play again? Please enter 'y' for yes and 'n' for no"
+	puts "\n\nPlay again? Please enter 'y' for yes and 'n' for no"
 	reply = gets.chomp.downcase
 	if reply == "y"
 		start_game

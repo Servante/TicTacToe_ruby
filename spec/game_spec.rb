@@ -8,18 +8,23 @@ require_relative '../lib/player.rb'
 require 'pry'
 
 describe Game do
+
+
+
+	describe '#play_game' do
+		subject(:game) {described_class.new}
+
+		it 'runs game_setup, game_turns and game_finish' do
+			expect(game).to receive(:game_setup)
+			expect(game).to receive(:game_turns)
+			expect(game).to receive(:game_finish)
+			game.play_game
+		end
+	end
 	
 	describe '#player_creation' do
 		subject(:game) {described_class.new}
-
-		# context 'when a request for a new player is called' do
-		# 	it 'it uses a module method' do
-		# 		message = "Please enter your name for player #1"
-		# 		expect(game).to receive(:puts).with(message)
-		# 		game.player_creation(1)
-		# 	end
-		# end
-
+		
 		before do
 				name = "fred"
 				allow(game).to receive(:puts)
@@ -68,6 +73,8 @@ describe Game do
 		end
 	end
 
+
+
 	# describe 'verify_input' do
 
 	# 	subject(:game) {described_class.new}
@@ -101,40 +108,40 @@ describe Game do
 	# 	end
 	# end
 
-	describe 'game_turn' do
-		subject(:game_turn) {described_class.new}
-		let(:game_turn_board) {instance_double(Board)}
-		player1 = Player.new("wes", "X")
-		player2 = Player.new("bria", "O")
+	# describe 'game_turn' do
+	# 	subject(:game_turn) {described_class.new}
+	# 	let(:game_turn_board) {instance_double(Board)}
+	# 	player1 = Player.new("wes", "X")
+	# 	player2 = Player.new("bria", "O")
 
 
-		before do
-			game_turn.instance_variable_set(:@player1, player1)
-			game_turn.instance_variable_set(:@current_player, player1)
-			game_turn.instance_variable_set(:@player2, player2)
-			game_turn.instance_variable_set(:@board, game_turn_board)
-			allow(game_turn_board).to receive(:show)
-			allow(game_turn_board).to receive(:board_update)
-			allow(game_turn_board).to receive(:game_over?)
-		end
+	# 	before do
+	# 		game_turn.instance_variable_set(:@player1, player1)
+	# 		game_turn.instance_variable_set(:@current_player, player1)
+	# 		game_turn.instance_variable_set(:@player2, player2)
+	# 		game_turn.instance_variable_set(:@board, game_turn_board)
+	# 		allow(game_turn_board).to receive(:show)
+	# 		allow(game_turn_board).to receive(:board_update)
+	# 		allow(game_turn_board).to receive(:game_over?)
+	# 	end
 
 
-		context 'when display_game_turn is called' do
-			it 'if no one wins, it runs until turn_count reaches 9' do
-				allow(game_turn).to receive(:player_input).and_return("1","2","3","4","5","6","7","8","9")
-				expect(game_turn).to receive(:display_tie)
-				game_turn.game_turn
-			end
+	# 	context 'when display_game_turn is called' do
+	# 		it 'if no one wins, it runs until turn_count reaches 9' do
+	# 			allow(game_turn).to receive(:player_input).and_return("1","2","3","4","5","6","7","8","9")
+	# 			expect(game_turn).to receive(:display_tie)
+	# 			game_turn.game_turn
+	# 		end
 
-			it 'if a player actually wins, the loop end and #game_finish is called' do
-				game_turn_board.instance_variable_set(:@cells, [1,2,3,4,5,6,7,8,9])
-				allow(game_turn_board).to receive(:game_over?).and_return(true)
-				allow(game_turn).to receive(:player_input).and_return("1","4","2","7","3")
+	# 		it 'if a player actually wins, the loop end and #game_finish is called' do
+	# 			game_turn_board.instance_variable_set(:@cells, [1,2,3,4,5,6,7,8,9])
+	# 			allow(game_turn_board).to receive(:game_over?).and_return(true)
+	# 			allow(game_turn).to receive(:player_input).and_return("1","4","2","7","3")
 
-				binding.pry
-				expect(game_turn).to receive(:player_input).exactly(5).times
-				game_turn.game_turn
-			end
-		end
-	end
+				
+	# 			expect(game_turn).to receive(:player_input).exactly(5).times
+	# 			game_turn.game_turn
+	# 		end
+	# 	end
+	# end
 end

@@ -11,23 +11,22 @@ module Display
 	end
 
 	def display_new_player(number)
-		puts "Please enter your name for player ##{number}"
+		puts "\n\nPlease enter your name for player ##{number}"
 	end
 
 	def display_tie
-		puts "What a surprise. We have a tie."
+		puts "\n\nWhat a surprise. We have a tie."
 	end
 
 	def display_win(player)
-		puts "Congratulations #{player.name.capitalize}! You won!"
+		puts "\n\nCongratulations #{player.name.capitalize}! You won!"
 	end
 
 	def display_move_prompt(player)
-		# binding.pry
 		puts "#{player.name.capitalize}, please select a square."
 	end
 
 	def display_invalid_input
-		puts "That input is invalid."
+		puts "\\nThat input is invalid."
 	end
 end
