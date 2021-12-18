@@ -54,10 +54,6 @@ class Game
 		display_win
 	end
 
-	def update_turn_count
-		@turn_count += 1
-	end
-
 	def game_setup
 		display_introduction
 		@player1 = player_creation(1)
